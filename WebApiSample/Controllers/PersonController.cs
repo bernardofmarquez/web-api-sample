@@ -20,7 +20,15 @@ namespace WebApiSample.Controller {
 
       _personRepository.Add(person);
 
-      return Ok();
+      return Ok(person);
+    }
+
+    [HttpGet]
+
+    public IActionResult Get() {
+      List<Person> response = _personRepository.Get();
+      
+      return Ok(response);
     }
   }
 }

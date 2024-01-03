@@ -10,20 +10,14 @@ namespace WebApiSample.Repository {
         IMongoDatabase database = ConnectionContext.ConnectToMongoDB();
         _personCollection = database.GetCollection<Person>("person");
     }
-    public async void Add(Person person) {
-      try {
-        await _personCollection.InsertOneAsync(person);
-      } catch (Exception ex) {
-        throw new Exception("Ocorreu um erro ao inserir a pessoa.", ex);
-      }
+    public void Add(Person person) {
+        _personCollection.InsertOne(person);
     }
 
-    async List<Person> Get(){
-      try {
-        FilterDefinition<Person> filter = Builders<Person>.Filter.Empty;
-        await _personCollection.FindAsync(filter);
-
-      }
+    public List<Person> Get(){
+      FilterDefinition<Person> filter = Builders<Person>.Filter.Empty;
+      List<Person> result = _personCollection.Find(filter).ToList();
+      return result;
     }
   }
 }
