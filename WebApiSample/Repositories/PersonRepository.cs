@@ -3,7 +3,7 @@ using WebApiSample.Config;
 using WebApiSample.Model;
 
 namespace WebApiSample.Repository {
-  public class PersonRepository {
+  public class PersonRepository : IPersonrepository {
     private readonly IMongoCollection<Person> _personCollection;
 
     public PersonRepository() {

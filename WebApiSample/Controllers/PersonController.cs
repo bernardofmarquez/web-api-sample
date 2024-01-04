@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
 using WebApiSample.Model;
 using WebApiSample.Repository;
+using WebApiSample.ViewModel;
 
 namespace WebApiSample.Controller {
   [ApiController]
@@ -14,9 +15,9 @@ namespace WebApiSample.Controller {
     }
     
     [HttpPost]
-    public IActionResult Add(string name, int age) {
+    public IActionResult Add(PersonView personView) {
 
-      Person person = new Person(name, age);
+      Person person = new Person(personView.name, personView.age);
 
       _personRepository.Add(person);
 
