@@ -26,5 +26,15 @@ namespace WebApiSample.Controller {
       }
     }
 
+    [HttpPost]
+    public IActionResult SignUp(UserView userView) {
+      try {
+        _authService.RegisterUser(userView);
+        return Ok();
+      } catch (UserAlreadyExists ex) {
+        return Conflict(ex.Message);
+      }
+    }
+
   }
 }

@@ -5,7 +5,7 @@ using WebApiSample.Repository;
 using WebApiSample.ViewModel;
 
 namespace WebApiSample.Service {
-  public class AuthService {
+  public class AuthService : IAuthService {
 
     private readonly UserRepository _userRepository;
 
@@ -15,15 +15,28 @@ namespace WebApiSample.Service {
     public User AuthenticateUser(UserView userView) {
       User? user = _userRepository.VerifyUsername(userView.username);
       if (user == null) {
-        throw new UserDoesNotExist("Não existe usuário com esse nome.");
+        throw new UserDoesNotExist("There is no user with this name.");
       }
       
       bool validPassword = BCrypt.Net.BCrypt.Verify(userView.password, user.password);
       if (!validPassword) {
-        throw new IncorrectPassword("Senha incorreta.");
+        throw new IncorrectPassword("Incorrect password.");
       }
 
       return user;
+    }
+
+    public void RegisterUser(UserView userView) {
+      User? userExists = _userRepository.VerifyUsername(userView.username);
+      if(userExists is User) {
+        throw new UserAlreadyExists("User with this name already exists.");
+      }
+
+      string hashPassword = BCrypt.Net.BCrypt.HashPassword(userView.password);
+
+      User userHash = new User(userView.username, hashPassword);
+
+      _userRepository.Add(userHash);
     }
   }
 }
