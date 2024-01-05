@@ -3,7 +3,7 @@ using WebApiSample.Config;
 using WebApiSample.Model;
 
 namespace WebApiSample.Repository {
-  public class UserRepository : IUserrepository {
+  public class UserRepository : IUserRepository {
     private readonly IMongoCollection<User> _userRepository;
 
     public UserRepository() {

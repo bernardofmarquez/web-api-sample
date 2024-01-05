@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using WebApiSample.Model;
 using WebApiSample.Repository;
@@ -14,6 +15,7 @@ namespace WebApiSample.Controller {
       _personRepository = personRepository ?? throw new ArgumentNullException();
     }
     
+    [Authorize]
     [HttpPost]
     public IActionResult Add(PersonView personView) {
 
@@ -24,6 +26,7 @@ namespace WebApiSample.Controller {
       return Ok(person);
     }
 
+    [Authorize]
     [HttpGet]
 
     public IActionResult Get() {

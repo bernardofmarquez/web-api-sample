@@ -3,6 +3,7 @@ using WebApiSample.Repository;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
+using WebApiSample.Service;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -44,7 +45,12 @@ builder.Services.AddSwaggerGen(c =>
 
 });
 
+builder.Services.AddTransient<IPersonrepository, PersonRepository>();
+builder.Services.AddTransient<IAuthService, AuthService>();
+builder.Services.AddTransient<IUserRepository, UserRepository>();
 builder.Services.AddScoped<PersonRepository>();
+builder.Services.AddScoped<AuthService>();
+builder.Services.AddScoped<UserRepository>();
 
 var key = Encoding.ASCII.GetBytes(WebApiSample.JwtKey.Secret!);
 

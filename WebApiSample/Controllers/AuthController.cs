@@ -10,15 +10,17 @@ namespace WebApiSample.Controller {
 
     private readonly AuthService _authService;
 
-    public AuthController(AuthService autService) {
-      _authService = autService ?? throw new ArgumentNullException();
+    public AuthController(AuthService authService) {
+      _authService = authService ?? throw new ArgumentNullException();
     }
 
     [HttpPost]
+    [Route("sign-in")]
     public IActionResult SignIn(UserView userView) {
       try {
         User user = _authService.AuthenticateUser(userView);
-        return Ok(user);
+        var token = TokenService.GenerateToken(user);
+        return Ok(token);
       } catch (UserDoesNotExist ex) {
         return NotFound(ex.Message);
       } catch (IncorrectPassword ex) {
@@ -27,6 +29,7 @@ namespace WebApiSample.Controller {
     }
 
     [HttpPost]
+    [Route("sign-up")]
     public IActionResult SignUp(UserView userView) {
       try {
         _authService.RegisterUser(userView);
